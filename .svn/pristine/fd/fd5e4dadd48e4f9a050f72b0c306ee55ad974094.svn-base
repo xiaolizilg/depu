@@ -1,0 +1,27 @@
+<?php $__env->startSection('title', __('frontend.title')); ?>
+<?php $__env->startSection('body_attr', 'data-spy="scroll" data-target="#header-navbar" data-offset="51"'); ?>
+
+<?php $__env->startSection('content'); ?>
+    <?php echo $__env->make('components.frontend.home', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('components.frontend.service', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('components.frontend.milestone', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('components.frontend.about', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('components.frontend.quote', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('components.frontend.team', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('components.frontend.action_box', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('components.frontend.feature', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    <?php echo $__env->make('components.frontend.contact', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_scripts'); ?>
+<script src="<?php echo e(asset('assets/js/apps.min.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_script'); ?>
+<script>    
+    $(document).ready(function() {
+        App.init();
+    });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.frontend', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

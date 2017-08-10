@@ -1,0 +1,46 @@
+<!-- begin #sidebar -->
+<div id="sidebar" class="sidebar">
+    <!-- begin sidebar scrollbar -->
+    <div data-scrollbar="true" data-height="100%">
+        <!-- begin sidebar user -->
+        <ul class="nav">
+            <li class="nav-profile">
+                <div class="image">
+                    <a href="javascript:;"><img src="<?php echo e(auth()->user()->me->avatar); ?>" alt="" /></a>
+                </div>
+                <div class="info">
+                    <?php echo e(auth()->user()->me->name); ?>
+
+                    <small><i class="fa fa-circle-o text-success"></i> <?php echo e(in_array(auth()->user()->me->id, config('auth.super_admins')) ? __('roles.administrator') : (auth()->user()->me->roles->isEmpty() ? __('roles.no_roles') : auth()->user()->me->roles->forPage(2, 1)->implode('title', '&nbsp;&nbsp;'))); ?></small>
+                </div>
+            </li>
+        </ul>
+        <!-- end sidebar user -->
+        <!-- begin sidebar nav -->
+        <ul class="nav">
+            <li class="nav-header"><?php echo e(__('labels.general.navigation')); ?></li>
+            <?php $__currentLoopData = $_menus->where('level', 0); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $menu): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php $level = 0; ?>
+            <li class="<?php echo e($menu->has_sub ? 'has-sub' : ''); ?> <?php echo e(in_array($menu->id, $_site_maps->keys()->all()) ? 'active' : ''); ?>">
+                <a href="<?php echo e(!empty($menu->name) && Route::has($menu->name) && $menu->has_url ? route($menu->name) : '#'); ?>">
+                    <?php if(isset($menu->has_sub)): ?>
+                    <b class="caret pull-right"></b>
+                    <?php endif; ?>
+                    <i class="fa fa-<?php echo e(!empty($menu->icon) ? $menu->icon : 'laptop'); ?>"></i>
+                    <span><?php echo e($menu->title); ?></span>
+                </a>
+                <?php if(!$_menus->where('level', ++$level)->where('pid', $menu->id)->isEmpty()): ?>
+                    <?php echo $__env->make('components.backend.sub_menus', ['level' => $level, 'pid' => $menu->id], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                <?php endif; ?>
+            </li>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <!-- begin sidebar minify button -->
+            <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
+            <!-- end sidebar minify button -->
+        </ul>
+        <!-- end sidebar nav -->
+    </div>
+    <!-- end sidebar scrollbar -->
+</div>
+<div class="sidebar-bg"></div>
+<!-- end #sidebar -->

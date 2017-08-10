@@ -1,0 +1,33 @@
+<?php $__env->startSection('title', __('http.404.title')); ?>
+<?php $__env->startSection('page_body', 'pace-top'); ?>
+
+<?php $__env->startSection('content'); ?>
+<!-- begin error -->
+<div class="error">
+    <div class="error-code m-b-10"><?php echo e(__('http.404.title')); ?> <i class="fa fa-warning"></i></div>
+    <div class="error-content">
+        <div class="error-message"><?php echo e(__('http.404.description')); ?></div>
+        <div class="error-desc m-b-20">
+            <?php echo __('http.404.content'); ?>
+
+        </div>
+        <div>
+            <a href="/" class="btn btn-success"><?php echo e(__('http.404.button')); ?></a>
+        </div>
+    </div>
+</div>
+<!-- end error -->
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_scripts'); ?>
+<script src="<?php echo e(asset('backend/assets/js/apps.min.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_script'); ?>
+<script>
+	$(document).ready(function() {
+		App.init();
+	});
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.error', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

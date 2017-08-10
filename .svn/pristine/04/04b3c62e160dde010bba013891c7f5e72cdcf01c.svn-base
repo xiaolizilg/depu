@@ -1,0 +1,36 @@
+<?php $__env->startSection('title', __('backend.dashboard.title')); ?>
+<?php $__env->startSection('page_styles'); ?>
+<link href="<?php echo e(asset('backend/assets/plugins/jquery-jvectormap/jquery-jvectormap.css')); ?>" rel="stylesheet" />
+<link href="<?php echo e(asset('backend/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css')); ?>" rel="stylesheet" />
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<!-- begin row -->
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="text-center"><?php echo e(__('backend.dashboard.welcome')); ?></h3>
+    </div>
+</div>
+<!-- end row -->
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_scripts'); ?>
+<script src="<?php echo e(asset('backend/assets/js/apps.min.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_script'); ?>
+<script>
+    $(document).ready(function() {
+        App.init();
+        $.ajax({
+            url : '<?php echo e(url('larawos/test')); ?>',
+            data : {foo : '123'},
+            type : 'POST',
+            success : function(data){
+                console.log(data)
+            }
+        });
+    });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.backend', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

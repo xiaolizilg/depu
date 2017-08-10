@@ -1,0 +1,123 @@
+<?php $__env->startSection('title', '添加菜单'); ?>
+<?php $__env->startSection('page_styles'); ?>
+<link href="<?php echo e(asset('backend/assets/plugins/parsley/src/parsley.css')); ?>" rel="stylesheet" />
+<link href="<?php echo e(asset('backend/assets/plugins/select2/dist/css/select2.min.css')); ?>" rel="stylesheet" />
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-inverse" data-sortable-id="form-validation">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+                <h4 class="panel-title">添加菜单</h4>
+            </div>
+            <div class="panel-body panel-form">
+                <form method="POST" action="<?php echo e(route('backend.system.menu.store')); ?>" class="form-horizontal form-bordered" data-parsley-validate="true">
+                    <?php echo csrf_field(); ?>
+
+                    <legend><h3 class="text-center">菜单信息</h3></legend>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4" for="name">标识 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <select name="name" id="name" class="select form-control">
+                            <?php $__currentLoopData = $routes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $route): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($route); ?>"><?php echo e($route); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4" for="pid">上级 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <select name="pid" id="pid" class="select form-control">
+                                <option value="0">顶级菜单</option>
+                            <?php $__currentLoopData = $menus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $menu): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($menu->id); ?>"><?php echo e($menu->title); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4" for="title">名称 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control" type="text" id="title" name="title" placeholder="名称" data-parsley-trigger="change" data-parsley-required="true" data-parsley-maxlength="240" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4" for="icon">图标 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control" type="text" id="icon" name="icon" placeholder="图标" data-parsley-trigger="change" data-parsley-maxlength="240" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4" for="desc">描述 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <textarea class="form-control" id="desc" name="desc" rows="4" placeholder="描述" data-parsley-trigger="change" data-parsley-maxlength="240" ></textarea>
+                        </div>
+                    </div>
+                    <legend><h3 class="text-center">状态</h3></legend>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4">启用 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="status" value="0" /> 否
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="status" value="1" checked/> 是
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4">跳转 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="has_url" value="0" checked/> 不允许
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="has_url" value="1" /> 允许
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <button type="submit" class="btn btn-success">提交</button>
+                            <a href="<?php echo e(route('backend.system.menu.index')); ?>" class="btn btn-white">返回</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_scripts'); ?>
+<script src="<?php echo e(asset('backend/assets/plugins/parsley/dist/parsley.js')); ?>"></script>
+<script src="<?php echo e(asset('backend/assets/plugins/select2/dist/js/select2.min.js')); ?>"></script>
+<script src="<?php echo e(asset('backend/assets/js/apps.min.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_script'); ?>
+<script>
+    $(document).ready(function() {
+        App.init();
+        Parsley.setLocale('<?php echo e(config('app.locale')); ?>');
+        $(".select").select2();
+    });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.backend', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,150 @@
+@extends('layouts.backend')
+
+@section('title', '添加管理员')
+@section('page_styles')
+<link href="{{ asset('backend/assets/plugins/parsley/src/parsley.css') }}" rel="stylesheet" />
+<link href="{{ asset('backend/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css') }}" rel="stylesheet" />
+<link href="{{ asset('backend/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css') }}" rel="stylesheet" />
+<link href="{{ asset('backend/assets/plugins/uploadify/css/uploadifive.css') }}" rel="stylesheet" />
+@endsection
+
+@section('content')
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-inverse" data-sortable-id="form-validation">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+                <h4 class="panel-title">添加管理员</h4>
+            </div>
+            <div class="panel-body panel-form">
+                <form method="POST" action="{{ route('backend.account.admin.store') }}" class="form-horizontal form-bordered" data-parsley-validate="true">
+                    {!! csrf_field() !!}
+                    <legend><h3 class="text-center">账号信息</h3></legend>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4" for="name">手机号 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control" type="text" id="name" name="name" placeholder="手机号" data-parsley-trigger="change" data-parsley-required="true" data-parsley-type="mobile" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4" for="password">密码 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control" type="text" id="password" name="password" placeholder="密码" data-parsley-trigger="change" data-parsley-required="true" data-parsley-length="[6,16]" />
+                        </div>
+                    </div>
+                    <legend><h3 class="text-center">资料信息</h3></legend>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4">头像 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <div id="avatar_box" class="m-b-10" style="width:200px">
+                            </div>
+                            <input class="form-control" type="text" value="0" name="avatar_id" id="avatar_id"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4" for="nickname">昵称 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control" type="text" id="nickname" name="nickname" data-parsley-trigger="change" data-parsley-maxlength="80" placeholder="昵称" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4">真实姓名 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control" type="text" name="real_name" data-parsley-trigger="change" data-parsley-maxlength="80" placeholder="真实姓名" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4">联系方式 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control" type="text" name="mobile" data-parsley-trigger="change" data-parsley-maxlength="80" placeholder="联系方式" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4">性别 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="sex" value="0" /> 女
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="sex" value="1" checked /> 男
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4" for="birthday">生日 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="input-group date">
+                                <input type="text" name="birthday" id="birthday" class="form-control" placeholder="年-月-日"/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <legend><h3 class="text-center">状态</h3></legend>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4">启用 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="status" value="0" /> 否
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="status" value="1" checked/> 是
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <button type="submit" class="btn btn-success">提交</button>
+                            <a href="{{ route('backend.account.admin.index') }}" class="btn btn-white">返回</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('page_scripts')
+<script src="{{ asset('backend/assets/plugins/parsley/dist/parsley.js') }}"></script>
+<script src="{{ asset('backend/assets/js/apps.min.js') }}"></script>
+<script src="{{ asset('backend/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('backend/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.zh.min.js') }}"></script>
+<script src="{{ asset('backend/assets/plugins/uploadify/js/jquery.uploadifive.min.js') }}"></script>
+@endsection
+
+@section('page_script')
+<script>
+    $(document).ready(function() {
+        App.init();
+        Parsley.setLocale('{{ config('app.locale') }}');
+        $(".date").datepicker({
+            format: "yyyy-mm-dd",
+            language: "{{ config('app.locale') }}",
+            autoclose: true
+        });
+        $("#avatar_id").uploadifive({
+            "uploadScript" : "{{ route('api.user.image.post') }}",
+            "onUploadComplete" : function(file, data) {
+                var body = eval("("+data+")").body;
+                $("#avatar_id").val(body.id);
+                $("#avatar_box").html('<div class="profile-image"><img class="m-auto" src="'+body.url+'" title="'+body.url+'" height="100%" /></div>');
+            }
+        });
+    });
+</script>
+@endsection

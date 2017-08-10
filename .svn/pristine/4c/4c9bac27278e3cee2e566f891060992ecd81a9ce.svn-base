@@ -1,0 +1,93 @@
+<?php $__env->startSection('title', '回复评论'); ?>
+<?php $__env->startSection('page_styles'); ?>
+<link href="<?php echo e(asset('backend/assets/plugins/parsley/src/parsley.css')); ?>" rel="stylesheet" />
+<link href="<?php echo e(asset('backend/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css')); ?>" rel="stylesheet" />
+<link href="<?php echo e(asset('backend/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css')); ?>" rel="stylesheet" />
+<link href="<?php echo e(asset('backend/assets/plugins/uploadify/css/uploadifive.css')); ?>" rel="stylesheet" />
+<link href="<?php echo e(asset('backend/assets/plugins/select2/dist/css/select2.min.css')); ?>" rel="stylesheet" />
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-inverse" data-sortable-id="form-validation">
+            <div class="panel-heading">
+                <h4 class="panel-title">聊天历史 </h4>
+            </div>
+            <div class="panel-body bg-silver">
+                <div data-scrollbar="true" data-height="225px">
+                    <ul class="chats">
+                        <li class="left">
+                            <span class="date-time"><?php echo e($comment->createded_at); ?></span>
+                            <a href="javascript:;" class="name"><?php echo e($comment->user->name); ?></a>
+                            <a href="javascript:;" class="image"><img alt="" src="<?php echo e($comment->user->avatar); ?>" /></a>
+                            <div class="message">
+                                <?php echo e($comment->content); ?>
+
+                            </div>
+                        </li>
+                        <?php $__currentLoopData = $comment->replies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $repliy): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <li class="right">
+                            <span class="date-time"><?php echo e($repliy->createded_at); ?></span>
+                            <a href="#" class="name"><span class="label label-primary">专属客服</span> 我</a>
+                            <a href="javascript:;" class="image"><img alt="" src="<?php echo e($repliy->user->avatar); ?>" /></a>
+                            <div class="message">
+                                <?php echo e($repliy->content); ?>
+
+                            </div>
+                        </li>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <form name="send_message_form" data-id="message-form" method="POST" action="<?php echo e(route('backend.comment.update', [$comment->id])); ?>">
+                    <?php echo csrf_field(); ?>
+
+                    <?php echo method_field('PUT'); ?>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control input-sm" name="content" placeholder="输入回复内容……">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary btn-sm" type="submit">发送</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_scripts'); ?>
+<script src="<?php echo e(asset('backend/assets/plugins/parsley/dist/parsley.js')); ?>"></script>
+<script src="<?php echo e(asset('backend/assets/js/apps.min.js')); ?>"></script>
+<script src="<?php echo e(asset('backend/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js')); ?>"></script>
+<script src="<?php echo e(asset('backend/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.zh.min.js')); ?>"></script>
+<script src="<?php echo e(asset('backend/assets/plugins/uploadify/js/jquery.uploadifive.min.js')); ?>"></script>
+<script src="<?php echo e(asset('backend/assets/plugins/select2/dist/js/select2.min.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_script'); ?>
+<script>
+    $(document).ready(function() {
+        App.init();
+        Parsley.setLocale('<?php echo e(config('app.locale')); ?>');
+        $(".select").select2();
+        $(".date").datepicker({
+            format: "yyyy-mm-dd",
+            language: "<?php echo e(config('app.locale')); ?>",
+            autoclose: true
+        });
+        $("#cover_id").uploadifive({
+            "uploadScript" : "<?php echo e(route('api.user.image.post')); ?>",
+            "onUploadComplete" : function(file, data) {
+                var body = eval("("+data+")").body;
+                $("#cover_id").val(body.id);
+                $("#avatar_box").html('<div class="profile-image"><img class="m-auto" src="'+body.url+'" title="'+body.url+'" height="100%" /></div>');
+            }
+        });
+    });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.backend', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

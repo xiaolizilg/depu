@@ -1,0 +1,67 @@
+@if ($errors->any())
+<?php $flush_message = ['title' => __('alerts.title.error'), 'image' => asset('assets/img/miku.jpg'), 'text' => $errors->first()]; ?>
+<script>
+    $(document).ready(function() {
+        $(window).load(function() {
+            setTimeout(function() {
+                $.gritter.add({!! json_encode($flush_message) !!})
+            }, 1e3)
+        })
+    });
+</script>
+@elseif (session()->get('success'))
+<?php $flush_message = ['title' => __('alerts.title.success'),'image' => asset('assets/img/miku.jpg'), 'text' => session()->get('success')]; ?>
+<script>
+    $(document).ready(function() {
+        $(window).load(function() {
+            setTimeout(function() {
+                $.gritter.add({!! json_encode($flush_message) !!})
+            }, 1e3)
+        })
+    });
+</script>
+@elseif (session()->get('warning'))
+<?php $flush_message = ['title' => __('alerts.title.warning'),'image' => asset('assets/img/miku.jpg'), 'text' => session()->get('warning')]; ?>
+<script>
+    $(document).ready(function() {
+        $(window).load(function() {
+            setTimeout(function() {
+                $.gritter.add({!! json_encode($flush_message) !!})
+            }, 1e3)
+        })
+    });
+</script>
+@elseif (session()->get('info'))
+<?php $flush_message = ['title' => __('alerts.title.info'),'image' => asset('assets/img/miku.jpg'), 'text' => session()->get('info')]; ?>
+<script>
+    $(document).ready(function() {
+        $(window).load(function() {
+            setTimeout(function() {
+                $.gritter.add({!! json_encode($flush_message) !!})
+            }, 1e3)
+        })
+    });
+</script>
+@elseif (session()->get('danger'))
+<?php $flush_message = ['title' => __('alerts.title.danger'),'image' => asset('assets/img/miku.jpg'), 'text' => session()->get('danger')]; ?>
+<script>
+    $(document).ready(function() {
+        $(window).load(function() {
+            setTimeout(function() {
+                $.gritter.add({!! json_encode($flush_message) !!})
+            }, 1e3)
+        })
+    });
+</script>
+@elseif (session()->get('message'))
+<?php $flush_message = ['title' => __('alerts.title.message'),'image' => asset('assets/img/miku.jpg'), 'text' => session()->get('message')]; ?>
+<script>
+    $(document).ready(function() {
+        $(window).load(function() {
+            setTimeout(function() {
+                $.gritter.add({!! json_encode($flush_message) !!})
+            }, 1e3)
+        })
+    });
+</script>
+@endif

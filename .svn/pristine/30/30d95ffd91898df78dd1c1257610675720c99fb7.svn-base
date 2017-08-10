@@ -1,0 +1,113 @@
+<?php $__env->startSection('title', '财务详情'); ?>
+
+<?php $__env->startSection('page_styles'); ?>
+<link href="<?php echo e(asset('backend/assets/css/invoice-print.min.css')); ?>" rel="stylesheet" />
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="invoice">
+    <div class="invoice-company">
+        <span class="pull-right hidden-print">
+        <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-success m-b-10"><i class="fa fa-print m-r-5"></i> 打印</a>
+        </span>
+        <?php echo e(config('app.name')); ?>
+
+    </div>
+    <div class="invoice-header">
+        <div class="row">
+            <div class="col-xs-12">
+                    <div class="invoice-from">
+                        <small>服务信息</small>
+                        <address class="m-t-5 m-b-5">
+                            <strong>医院：</strong> <?php echo e($running->order->hospital); ?><br /><br />
+                            <?php echo e($running->order->desc); ?>
+
+                        </address>
+                    </div>
+                    <div class="invoice-to">
+                        <small>订单信息</small>
+                        <address class="m-t-5 m-b-5">
+                            <strong>订单号：</strong> <?php echo e($running->order->order_code); ?><br /><br />
+                            服务费：￥<?php echo e($running->order->money); ?><br /><br />
+                        </address>
+                    </div>
+                    <div class="invoice-date">
+                        <small>付款信息</small>
+                        <div class="date m-t-5"><?php echo e($running->paid_at); ?></div>
+                        <div class="invoice-detail">
+                            账号：<?php echo e($running->account); ?><br /><br />
+                            支付金额：￥<?php echo $running->money; ?><br /><br />
+                            支付方式：<?php echo $running->pay_type_desc; ?><br /><br />
+                            支付状态：<?php echo $running->status_desc; ?>
+
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="invoice-content">
+        <div class="table-responsive">
+            <table class="table table-invoice">
+                <thead>
+                    <tr>
+                        <th>服务名称</th>
+                        <th>服务提供者</th>
+                        <th>参考价格</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $__currentLoopData = $running->order->order_infos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $info): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <tr>
+                        <td><?php echo e($info->infoable->title); ?></td>
+                        <td><?php echo e($info->real_name); ?></td>
+                        <td><?php echo e($info->price); ?></td>
+                    </tr>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="invoice-price">
+            <div class="invoice-price-left">
+                <div class="invoice-price-row">
+                    <div class="sub-price">
+                        <small>参考价格</small>
+                        ￥<?php echo e($running->order->order_infos->pluck('price')->sum()); ?>
+
+                    </div>
+                    <div class="sub-price">
+                        <i class="fa fa-plus"></i>
+                    </div>
+                    <div class="sub-price">
+                        <small>服务费</small>
+                        ￥<?php echo e(project_price()); ?>
+
+                    </div>
+                </div>
+            </div>
+            <div class="invoice-price-right">
+                <small>总计</small> ￥<?php echo e($running->order->order_infos->pluck('price')->sum() + project_price()); ?>
+
+            </div>
+        </div>
+    </div>
+    <div class="invoice-footer text-muted">
+        <p class="text-center m-b-5">
+            <?php echo e(config('app.name')); ?>
+
+        </p>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_scripts'); ?>
+<script src="<?php echo e(asset('backend/assets/js/apps.min.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_script'); ?>
+<script>
+    $(document).ready(function() {
+        App.init();
+    });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.backend', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

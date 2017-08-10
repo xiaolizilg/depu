@@ -1,0 +1,59 @@
+<?php $__env->startSection('title', '会员档案'); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row">
+    <div class="col-md-12">
+        <!-- begin panel -->
+        <div class="panel panel-inverse" data-sortable-id="records">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+                <h4 class="panel-title">数据表</h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>症状名称</th>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                            <th>创建时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $__currentLoopData = $records; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $record): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <tr>
+                            <td><?php echo e($record->id); ?></td>
+                            <td><?php echo e($record->title); ?></td>
+                            <td><?php echo e($record->started_at); ?></td>
+                            <td><?php echo e($record->ended_at); ?></td>
+                            <td><?php echo e($record->created_at); ?></td>
+                        </tr>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </tbody>
+                </table>
+                <?php echo e(request()->has('search_word') ? $records->appends(['search_word' => request()->input('search_word')])->links() : $records->links()); ?>
+
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_scripts'); ?>
+<script src="<?php echo e(asset('backend/assets/js/apps.min.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_script'); ?>
+<script>
+    $(document).ready(function() {
+        App.init();
+    });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.backend', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

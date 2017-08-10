@@ -1,0 +1,61 @@
+<!-- begin #contact -->
+<div id="contact" class="content bg-silver-lighter" data-scrollview="true">
+    <!-- begin container -->
+    <div class="container">
+        <h2 class="content-title">{{ __('frontend.contact.title') }}</h2>
+        <p class="content-desc">
+            {!! __('frontend.contact.desc') !!}
+        </p>
+        <!-- begin row -->
+        <div class="row">
+            <!-- begin col-6 -->
+            <div class="col-md-6" data-animation="true" data-animation-type="fadeInLeft">
+                <h3>{{ __('frontend.contact.body.title') }}</h3>
+                <p>
+                    {{ __('frontend.contact.body.desc') }}
+                </p>
+                <p>
+                    {!! __('frontend.contact.body.info') !!}
+                </p>
+                <p>
+                    <span class="phone">+86 17612888261</span><br />
+                    <a href="mailto:wosjohn@foxmail.com">wosjohn@foxmail.com</a>
+                </p>
+            </div>
+            <!-- end col-6 -->
+            <!-- begin col-6 -->
+            <div class="col-md-6 form-col" data-animation="true" data-animation-type="fadeInRight">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">{{ __('frontend.contact.body.form.name') }} <span class="text-theme">*</span></label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">{{ __('frontend.contact.body.form.email') }} <span class="text-theme">*</span></label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">{{ __('frontend.contact.body.form.content') }} <span class="text-theme">*</span></label>
+                        <div class="col-md-9">
+                            <textarea class="form-control" rows="10"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3"></label>
+                        <div class="col-md-9 text-left">
+                            <button type="submit" class="btn btn-theme btn-block">{{ __('frontend.contact.body.form.submit') }}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- end col-6 -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end container -->
+</div>
+<!-- end #contact -->

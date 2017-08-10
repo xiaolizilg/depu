@@ -1,0 +1,113 @@
+<?php $__env->startSection('title', '添加图片'); ?>
+<?php $__env->startSection('page_styles'); ?>
+<link href="<?php echo e(asset('backend/assets/plugins/parsley/src/parsley.css')); ?>" rel="stylesheet" />
+<link href="<?php echo e(asset('backend/assets/plugins/uploadify/css/uploadifive.css')); ?>" rel="stylesheet" />
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row">
+    <div class="col-md-12">
+        <!-- begin panel -->
+        <div class="panel panel-inverse" data-sortable-id="hospital">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+                <h4 class="panel-title">医院信息</h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table-profile">
+                    <tbody>
+                    <td class="field">封面</td>
+                        <td><img height="150" style="max-width: 150px;" src="<?php echo e($hospital->cover); ?>" alt="<?php echo e($hospital->cover); ?>"></td>
+                        <tr class="divider">
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td class="field">名称</td>
+                            <td><?php echo e($hospital->title); ?></td>
+                        </tr>
+                        <tr>
+                            <td class="field">描述</td>
+                            <td><?php echo e($hospital->desc); ?></td>
+                        </tr>
+                        <tr>
+                            <td class="field">简介</td>
+                            <td><?php echo e($hospital->info); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-inverse" data-sortable-id="form-validation">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+                <h4 class="panel-title">添加图片</h4>
+            </div>
+            <div class="panel-body panel-form">
+                <form method="POST" action="<?php echo e(route('backend.hospital.tourism.spot.image.store', [$hospital, $tourism, $spot])); ?>" class="form-horizontal form-bordered" data-parsley-validate="true">
+                    <?php echo csrf_field(); ?>
+
+                    <legend><h3 class="text-center">图片信息</h3></legend>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4">图片 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <div id="avatar_box" class="m-b-10" style="width:200px">
+                            </div>
+                            <input class="form-control" type="text" name="image_id" id="image_id" value="0" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4">名称 :</label>
+                        <div class="col-md-6 col-sm-6">
+                            <input class="form-control" type="text" name="title" data-parsley-trigger="change" data-parsley-maxlength="80" data-parsley-required="true" placeholder="名称" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-4 col-sm-4"></label>
+                        <div class="col-md-6 col-sm-6">
+                            <button type="submit" class="btn btn-success">提交</button>
+                            <a href="<?php echo e(route('backend.hospital.tourism.spot.image.index', [$hospital, $tourism, $spot])); ?>" class="btn btn-white">返回</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_scripts'); ?>
+<script src="<?php echo e(asset('backend/assets/plugins/parsley/dist/parsley.js')); ?>"></script>
+<script src="<?php echo e(asset('backend/assets/js/apps.min.js')); ?>"></script>
+<script src="<?php echo e(asset('backend/assets/plugins/uploadify/js/jquery.uploadifive.min.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_script'); ?>
+<script>
+    $(document).ready(function() {
+        App.init();
+        Parsley.setLocale('<?php echo e(config('app.locale')); ?>');
+        $("#image_id").uploadifive({
+            "uploadScript" : "<?php echo e(route('api.user.image.post')); ?>",
+            "onUploadComplete" : function(file, data) {
+                var body = eval("("+data+")").body;
+                $("#image_id").val(body.id);
+                $("#avatar_box").html('<div class="profile-image"><img class="m-auto" src="'+body.url+'" title="'+body.url+'" height="100%" /></div>');
+            }
+        });
+    });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.backend', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

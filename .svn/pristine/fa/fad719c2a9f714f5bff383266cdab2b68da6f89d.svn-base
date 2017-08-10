@@ -1,0 +1,63 @@
+<?php $__env->startSection('title', __('http.503.title')); ?>
+<?php $__env->startSection('page_body', 'bg-white p-t-0 pace-top'); ?>
+
+<?php $__env->startSection('page_styles'); ?>
+<link href="<?php echo e(asset('backend/assets/plugins/jquery.countdown/jquery.countdown.css')); ?>" rel="stylesheet" />
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<!-- begin coming-soon -->
+<div class="coming-soon">
+    <div class="coming-soon-header">
+        <div class="bg-cover"></div>
+        <div class="brand">
+            <span class="logo"></span> <?php echo e(env('APP_NAME')); ?>
+
+        </div>
+        <div class="timer">
+            <div id="timer"></div>
+        </div>
+        <div class="desc">
+            <?php echo __('http.503.description_1'); ?>
+
+        </div>
+    </div>
+    <div class="coming-soon-content">
+        <div class="desc">
+            <?php echo __('http.503.description_2'); ?>
+
+        </div>
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Email Address" />
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-success"><?php echo __('http.503.button'); ?></button>
+            </div>
+        </div>
+        <p class="help-block m-b-25"><i><?php echo __('http.503.dont_spam'); ?></i></p>
+        <p>
+            <?php echo __('http.503.contact'); ?>
+
+            <a href="#"><i class="fa fa-twitter fa-fw"></i> Twitter</a> and 
+            <a href="#"><i class="fa fa-facebook fa-fw"></i> Facebook</a>
+        </p>
+    </div>
+</div>
+<!-- end coming-soon -->
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_scripts'); ?>
+<script src="<?php echo e(asset('backend/assets/plugins/jquery.countdown/jquery.plugin.js')); ?>"></script>
+<script src="<?php echo e(asset('backend/assets/plugins/jquery.countdown/jquery.countdown.js')); ?>"></script>
+<script src="<?php echo e(asset('backend/assets/js/coming-soon.demo.min.js')); ?>"></script>
+<script src="<?php echo e(asset('backend/assets/js/apps.min.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_script'); ?>
+<script>
+	$(document).ready(function() {
+		App.init();
+		ComingSoon.init();
+	});
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.error', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

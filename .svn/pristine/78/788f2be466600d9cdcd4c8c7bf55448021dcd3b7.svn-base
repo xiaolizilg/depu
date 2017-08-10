@@ -1,0 +1,136 @@
+<?php $__env->startSection('title', '图片管理'); ?>
+
+<?php $__env->startSection('page_styles'); ?>
+<link href="<?php echo e(asset('backend/assets/plugins/uploadify/css/uploadifive.css')); ?>" rel="stylesheet" />
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row">
+    <div class="col-md-12">
+        <!-- begin panel -->
+        <div class="panel panel-inverse" data-sortable-id="hotal">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+                <h4 class="panel-title">酒店信息</h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table-profile">
+                    <tbody>
+                    <td class="field">封面</td>
+                        <td><img height="150" style="max-width: 150px;" src="<?php echo e($hotal->cover); ?>" alt="<?php echo e($hotal->cover); ?>"></td>
+                        <tr class="divider">
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td class="field">名称</td>
+                            <td><?php echo e($hotal->title); ?></td>
+                        </tr>
+                        <tr>
+                            <td class="field">简介</td>
+                            <td><?php echo e($hotal->info); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <!-- begin panel -->
+        <div class="panel panel-inverse" data-sortable-id="hotals">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+                <h4 class="panel-title">数据表</h4>
+            </div>
+            <div class="panel-body">
+                <div class="row m-b-20">
+                    <div class="col-xs-4">
+                        <?php if(9 > count($hotal->images)): ?>
+                        <input class="form-control" type="text" name="cover_id" id="add_cover_id" />
+                        <?php endif; ?>
+                    </div>
+                    <div class="col-xs-8">
+                    </div>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>图片</th>
+                            <th>修改</th>
+                            <th>删除</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php for($i = 0; $i < count($hotal->images); $i++): ?>
+                        <tr>
+                            <td><img height="30" style="max-width: 30px;" src="<?php echo e($hotal->images[$i]); ?>" alt="<?php echo e($hotal->images[$i]); ?>"></td>
+                            <td><input id="update_cover_id_<?php echo e($i); ?>" class="form-control" type="text" value="<?php echo e($i); ?>" /></td>
+                            <td>
+                            <a href="#" data-comfirm="true" data-method="GET" data-message="<?php echo e(__('alerts.general.comfirm.delete')); ?>" data-action="<?php echo e(route('backend.hospital.hotal.image.delete', [$hospital->id, $hotal->id, $i])); ?>" class="m-r-5 text-danger"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="<?php echo e(trans('buttons.backend.delete_permanently')); ?>"></i></a>
+                            </td>
+                        </tr>
+                        <?php endfor; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_scripts'); ?>
+<script src="<?php echo e(asset('backend/assets/plugins/uploadify/js/jquery.uploadifive.min.js')); ?>"></script>
+<script src="<?php echo e(asset('backend/assets/js/apps.min.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_script'); ?>
+<script>
+    $(document).ready(function() {
+        App.init();
+        $("#add_cover_id").uploadifive({
+            "uploadScript" : "<?php echo e(route('api.user.image.post')); ?>",
+            "onUploadComplete" : function(file, data) {
+                var body = eval("("+data+")").body;
+                $.ajax({
+                    url : '<?php echo e(route('backend.hospital.hotal.image.store', [$hospital, $hotal])); ?>',
+                    method : 'POST',
+                    data : { image_id : body.id, _token : '<?php echo e(csrf_token()); ?>' },
+                    success: function () {
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+
+        <?php for($i = 0; $i < count($hotal->images); $i++): ?>
+        $("#update_cover_id_<?php echo e($i); ?>").uploadifive({
+            "uploadScript" : "<?php echo e(route('api.user.image.post')); ?>",
+            "onUploadComplete" : function(file, data) {
+                var body = eval("("+data+")").body;
+
+                $.ajax({
+                    url : '<?php echo e(url('backend/hospital/'.$hospital->id.'/hotal/'.$hotal->id.'/image/'.$i)); ?>',
+                    method : 'POST',
+                    data : { image_id : body.id, _token : '<?php echo e(csrf_token()); ?>', _method : 'PUT' },
+                    success: function () {
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+        <?php endfor; ?>
+    });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.backend', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

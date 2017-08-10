@@ -1,0 +1,75 @@
+<?php $__env->startSection('title', '回复投诉'); ?>
+<?php $__env->startSection('page_styles'); ?>
+<link href="<?php echo e(asset('backend/assets/plugins/parsley/src/parsley.css')); ?>" rel="stylesheet" />
+<link href="<?php echo e(asset('backend/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css')); ?>" rel="stylesheet" />
+<link href="<?php echo e(asset('backend/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css')); ?>" rel="stylesheet" />
+<link href="<?php echo e(asset('backend/assets/plugins/uploadify/css/uploadifive.css')); ?>" rel="stylesheet" />
+<link href="<?php echo e(asset('backend/assets/plugins/select2/dist/css/select2.min.css')); ?>" rel="stylesheet" />
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-inverse" data-sortable-id="form-validation">
+            <div class="panel-heading">
+                <h4 class="panel-title">投诉历史 </h4>
+            </div>
+            <div class="panel-body bg-silver">
+                <div data-scrollbar="true" data-height="225px">
+                    <ul class="chats">
+                        <li class="left">
+                            <span class="date-time"><?php echo e($complaint->createded_at); ?></span>
+                            <a href="javascript:;" class="name"><?php echo e($complaint->user->name); ?></a>
+                            <a href="javascript:;" class="image"><img alt="" src="<?php echo e($complaint->user->avatar); ?>" /></a>
+                            <div class="message">
+                                <?php echo e($complaint->content); ?>
+
+                            </div>
+                        </li>
+                        <?php if(!empty($complaint->comment)): ?>
+                        <li class="right">
+                            <span class="date-time"><?php echo e($complaint->updateded_at); ?></span>
+                            <a href="#" class="name"><span class="label label-primary">专属客服</span> 我</a>
+                            <a href="javascript:;" class="image"><img alt="" src="<?php echo e($complaint->commenter->avatar); ?>" /></a>
+                            <div class="message">
+                                <?php echo e($complaint->comment); ?>
+
+                            </div>
+                        </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <form name="send_message_form" data-id="message-form" method="POST" action="<?php echo e(route('backend.content.complaint.update', [$complaint->id])); ?>">
+                    <?php echo csrf_field(); ?>
+
+                    <?php echo method_field('PUT'); ?>
+
+                    <div class="input-group">
+                        <input type="text" class="form-control input-sm" name="comment" placeholder="输入回复内容……">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary btn-sm" type="submit">发送</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_scripts'); ?>
+<script src="<?php echo e(asset('backend/assets/plugins/parsley/dist/parsley.js')); ?>"></script>
+<script src="<?php echo e(asset('backend/assets/js/apps.min.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_script'); ?>
+<script>
+    $(document).ready(function() {
+        App.init();
+        Parsley.setLocale('<?php echo e(config('app.locale')); ?>');
+    });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.backend', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

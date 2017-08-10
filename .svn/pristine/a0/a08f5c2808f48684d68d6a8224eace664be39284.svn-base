@@ -1,0 +1,113 @@
+<?php $__env->startSection('title', '行程管理'); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row">
+    <div class="col-md-12">
+        <!-- begin panel -->
+        <div class="panel panel-inverse" data-sortable-id="trip">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+                <h4 class="panel-title">行程简介</h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table-profile">
+                    <tbody>
+                        <tr>
+                            <td class="field">医院</td>
+                            <td><?php echo e($trip->hospital); ?></td>
+                        </tr>
+                        <tr>
+                            <td class="field">行程描述</td>
+                            <td><?php echo e($trip->desc); ?></td>
+                        </tr>
+                        <tr>
+                            <td class="field">服务费</td>
+                            <td><?php echo e($trip->price); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <!-- begin panel -->
+        <div class="panel panel-inverse" data-sortable-id="infos">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+                <h4 class="panel-title">行程信息</h4>
+            </div>
+            <div class="panel-body">
+                <!-- begin timeline -->
+                <ul class="timeline">
+                <?php $__currentLoopData = $trip->trip_infos; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $info): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <li>
+                        <!-- begin timeline-time -->
+                        <div class="timeline-time">
+                        <?php if(empty($info->started_at)): ?>
+                            <span class="time">待定</span>
+                        <?php else: ?>
+                            <span class="date"><?php echo e($info->started_at); ?></span>
+                            <span class="time"><?php echo e($info->started_at->diffForHumans()); ?></span>
+                        <?php endif; ?>
+                        </div>
+                        <!-- end timeline-time -->
+                        <!-- begin timeline-icon -->
+                        <div class="timeline-icon">
+                            <a href="<?php echo e(route('backend.order.trip.edit', [$order, $info])); ?>"><i class="fa fa-pencil" data-toggle="tooltip" data-placement="top" title="<?php echo e(__('buttons.general.crud.edit')); ?>"></i></a>
+                        </div>
+                        <!-- end timeline-icon -->
+                        <!-- begin timeline-body -->
+                        <div class="timeline-body">
+                            <div class="timeline-header">
+                                <span class="userimage"><img src="<?php echo e($info->cover); ?>" alt="" /></span>
+                                <span class="username"><a href="javascript:;"><?php echo e($info->real_name); ?></a> <small></small></span>
+                                <span class="pull-right text-muted"><?php echo $info->status_desc; ?></span>
+                            </div>
+                            <div class="timeline-content">
+                                <p>
+                                    <?php echo e($info->info); ?>
+
+                                </p>
+                            </div>
+                            <div class="timeline-footer">
+                                <p>
+                                    <?php echo e($info->desc); ?>
+
+                                </p>
+                            </div>
+                        </div>
+                        <!-- end timeline-body -->
+                    </li>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </ul>
+                <!-- end timeline -->
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_scripts'); ?>
+<script src="<?php echo e(asset('backend/assets/js/apps.min.js')); ?>"></script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page_script'); ?>
+<script>
+    $(document).ready(function() {
+        App.init();
+    });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.backend', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

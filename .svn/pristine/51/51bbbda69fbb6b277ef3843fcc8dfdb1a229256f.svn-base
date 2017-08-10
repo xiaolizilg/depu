@@ -1,0 +1,19 @@
+<?php if(config('app.env') != 'local'): ?>
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+        <?php if('backend.dashboard.index' != Route::currentRouteName()): ?>
+        <li><a href="<?php echo e(route('backend.dashboard.index')); ?>">管 理 中 心</a></li>
+        <?php endif; ?>
+    <?php $__currentLoopData = $_site_maps; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $site_map): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <?php if($site_map->is_actived): ?>
+        <li><a href="<?php echo e(!empty($site_map->name) && Route::has($site_map->name) ? route($site_map->name) : 'javascript:;'); ?>"><?php echo e($site_map->title); ?></a></li>
+        <?php else: ?>
+        <li class="active"><?php echo e($site_map->title); ?></li>
+        <?php endif; ?>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header"><?php echo e($_current_menu->title); ?> <small><?php echo e($_current_menu->desc); ?></small></h1>
+<!-- end page-header -->
+<?php endif; ?>
